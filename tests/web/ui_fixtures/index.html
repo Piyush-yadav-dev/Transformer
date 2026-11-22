@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Isolated UI test fixtures · Transformer</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    
+    
+    
+    <script type="module" src="/fixtures/fixture_app.js"></script>
+  <link rel="stylesheet" href="/assets/styles.css"></head>
+  <body>
+    <div class="app-frame">
+      <header class="page-heading"><p class="eyebrow">Isolated UI test fixtures</p><h1>Transformer interface testing.</h1><p class="page-description">Synthetic text and static states only. No model is loaded and no generation is running. This page is not served by the normal application.</p></header>
+      <div class="form-field"><label for="scenario">Fixture scenario</label><select id="scenario">
+        <option value="empty">Initial empty state</option><option value="ready">Ready opening</option>
+        <option value="loading">Loading (static fixture)</option><option value="success">Long output (synthetic fixture)</option>
+        <option value="validation_error">Validation error</option><option value="backend_unavailable">Backend unavailable</option>
+        <option value="missing_checkpoint">Missing checkpoint</option><option value="immediate_eos">Immediate end of story</option>
+        <option value="long_prompt">Long prompt at limit</option><option value="oversized_prompt">Oversized prompt</option>
+      </select></div>
+      <p><a href="/fixtures/foundations.html">View isolated design specimens</a></p>
+      <p id="fixture-status" class="inline-note" role="status"></p>
+      <main id="fixture-root"></main>
+    </div>
+  </body>
+</html>

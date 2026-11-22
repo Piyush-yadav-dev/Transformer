@@ -1,0 +1,755 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Transformer local inference",
+    "version": "2.0.0"
+  },
+  "paths": {
+    "/api/v1/status": {
+      "get": {
+        "summary": "Service Status",
+        "operationId": "service_status_api_v1_status_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceStatus"
+                }
+              }
+            }
+          }
+        },
+        "x-implementation-status": "implemented-phase15"
+      }
+    },
+    "/api/v1/models": {
+      "get": {
+        "summary": "Models",
+        "operationId": "models_api_v1_models_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelCatalog"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-implementation-status": "implemented-phase15"
+      }
+    },
+    "/api/v1/generations": {
+      "post": {
+        "summary": "Generate",
+        "operationId": "generate_api_v1_generations_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerationResult"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-implementation-status": "implemented-phase15"
+      }
+    },
+    "/api/v1/analytics": {
+      "get": {
+        "summary": "Analytics",
+        "operationId": "analytics_api_v1_analytics_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Analytics Api V1 Analytics Get"
+                }
+              }
+            }
+          }
+        },
+        "x-implementation-status": "implemented-phase17"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CheckpointIdentity": {
+        "properties": {
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Sha256"
+          },
+          "update": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Update"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "sha256",
+          "update"
+        ],
+        "title": "CheckpointIdentity"
+      },
+      "EffectiveSettings": {
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "greedy",
+              "sample"
+            ],
+            "title": "Mode"
+          },
+          "max_new_tokens": {
+            "type": "integer",
+            "maximum": 1024.0,
+            "minimum": 0.0,
+            "title": "Max New Tokens"
+          },
+          "temperature": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Temperature"
+          },
+          "top_k": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Top K"
+          },
+          "seed": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]{0,18})$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seed"
+          },
+          "effective_seed": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]{0,18})$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Effective Seed"
+          },
+          "unknown_policy": {
+            "type": "string",
+            "enum": [
+              "error",
+              "replace"
+            ],
+            "title": "Unknown Policy"
+          },
+          "stop_at_eos": {
+            "type": "boolean",
+            "const": true,
+            "title": "Stop At Eos"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mode",
+          "max_new_tokens",
+          "temperature",
+          "top_k",
+          "seed",
+          "effective_seed",
+          "unknown_policy",
+          "stop_at_eos"
+        ],
+        "title": "EffectiveSettings"
+      },
+      "ErrorDetail": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "invalid_request",
+              "model_not_found",
+              "artifact_unavailable",
+              "busy",
+              "inference_failed",
+              "service_unavailable",
+              "request_too_large",
+              "origin_not_allowed"
+            ],
+            "title": "Code"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "retryable": {
+            "type": "boolean",
+            "title": "Retryable"
+          },
+          "field": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Field"
+          },
+          "request_id": {
+            "type": "string",
+            "title": "Request Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "retryable",
+          "request_id"
+        ],
+        "title": "ErrorDetail"
+      },
+      "ErrorResponse": {
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ErrorDetail"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "title": "ErrorResponse"
+      },
+      "GenerationRequest": {
+        "properties": {
+          "model_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,79}$",
+            "title": "Model Id"
+          },
+          "prompt": {
+            "type": "string",
+            "maxLength": 16384,
+            "minLength": 1,
+            "title": "Prompt"
+          },
+          "settings": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GreedySettings"
+              },
+              {
+                "$ref": "#/components/schemas/SampleSettings"
+              }
+            ],
+            "title": "Settings",
+            "discriminator": {
+              "propertyName": "mode",
+              "mapping": {
+                "greedy": "#/components/schemas/GreedySettings",
+                "sample": "#/components/schemas/SampleSettings"
+              }
+            }
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "model_id",
+          "prompt",
+          "settings"
+        ],
+        "title": "GenerationRequest"
+      },
+      "GenerationResult": {
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "title": "Request Id"
+          },
+          "prompt": {
+            "type": "string",
+            "title": "Prompt"
+          },
+          "continuation": {
+            "type": "string",
+            "title": "Continuation"
+          },
+          "model_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,79}$",
+            "title": "Model Id"
+          },
+          "model_kind": {
+            "type": "string",
+            "enum": [
+              "baseline",
+              "combined",
+              "english"
+            ],
+            "title": "Model Kind"
+          },
+          "checkpoint": {
+            "$ref": "#/components/schemas/CheckpointIdentity"
+          },
+          "sampling_settings": {
+            "$ref": "#/components/schemas/EffectiveSettings"
+          },
+          "generated_token_count": {
+            "type": "integer",
+            "maximum": 1024.0,
+            "minimum": 0.0,
+            "title": "Generated Token Count"
+          },
+          "stop_reason": {
+            "type": "string",
+            "enum": [
+              "eos",
+              "max_new_tokens"
+            ],
+            "title": "Stop Reason"
+          },
+          "generation_duration_seconds": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Generation Duration Seconds"
+          },
+          "model_load_seconds": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Model Load Seconds"
+          },
+          "initial_prompt_tokens_truncated": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Initial Prompt Tokens Truncated"
+          },
+          "unknown_prompt_tokens": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Unknown Prompt Tokens"
+          },
+          "context_length": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Context Length"
+          },
+          "tokenizer_fingerprint": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Tokenizer Fingerprint"
+          },
+          "registry_fingerprint": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Registry Fingerprint"
+          },
+          "device": {
+            "type": "string",
+            "enum": [
+              "cpu",
+              "mps"
+            ],
+            "title": "Device"
+          },
+          "cache_hit": {
+            "type": "boolean",
+            "title": "Cache Hit"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "request_id",
+          "prompt",
+          "continuation",
+          "model_id",
+          "model_kind",
+          "checkpoint",
+          "sampling_settings",
+          "generated_token_count",
+          "stop_reason",
+          "generation_duration_seconds",
+          "model_load_seconds",
+          "initial_prompt_tokens_truncated",
+          "unknown_prompt_tokens",
+          "context_length",
+          "tokenizer_fingerprint",
+          "registry_fingerprint",
+          "device",
+          "cache_hit"
+        ],
+        "title": "GenerationResult"
+      },
+      "GreedySettings": {
+        "properties": {
+          "mode": {
+            "type": "string",
+            "const": "greedy",
+            "title": "Mode"
+          },
+          "max_new_tokens": {
+            "type": "integer",
+            "maximum": 1024.0,
+            "minimum": 0.0,
+            "title": "Max New Tokens",
+            "default": 128
+          },
+          "unknown_policy": {
+            "type": "string",
+            "enum": [
+              "error",
+              "replace"
+            ],
+            "title": "Unknown Policy",
+            "default": "error"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mode"
+        ],
+        "title": "GreedySettings"
+      },
+      "ModelCatalog": {
+        "properties": {
+          "models": {
+            "items": {
+              "$ref": "#/components/schemas/ModelSummary"
+            },
+            "type": "array",
+            "title": "Models"
+          },
+          "registry_fingerprint": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Registry Fingerprint"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "models",
+          "registry_fingerprint"
+        ],
+        "title": "ModelCatalog"
+      },
+      "ModelSummary": {
+        "properties": {
+          "model_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,79}$",
+            "title": "Model Id"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "baseline",
+              "combined",
+              "english"
+            ],
+            "title": "Kind"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name"
+          },
+          "availability": {
+            "type": "string",
+            "enum": [
+              "registered",
+              "unavailable"
+            ],
+            "title": "Availability"
+          },
+          "unavailable_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unavailable Reason"
+          },
+          "checkpoint": {
+            "$ref": "#/components/schemas/CheckpointIdentity"
+          },
+          "tokenizer_fingerprint": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Tokenizer Fingerprint"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "model_id",
+          "kind",
+          "display_name",
+          "availability",
+          "unavailable_reason",
+          "checkpoint",
+          "tokenizer_fingerprint"
+        ],
+        "title": "ModelSummary"
+      },
+      "SampleSettings": {
+        "properties": {
+          "mode": {
+            "type": "string",
+            "const": "sample",
+            "title": "Mode"
+          },
+          "max_new_tokens": {
+            "type": "integer",
+            "maximum": 1024.0,
+            "minimum": 0.0,
+            "title": "Max New Tokens",
+            "default": 128
+          },
+          "temperature": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Temperature"
+          },
+          "top_k": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Top K"
+          },
+          "seed": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]{0,18})$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seed"
+          },
+          "unknown_policy": {
+            "type": "string",
+            "enum": [
+              "error",
+              "replace"
+            ],
+            "title": "Unknown Policy",
+            "default": "error"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mode",
+          "temperature"
+        ],
+        "title": "SampleSettings"
+      },
+      "ServiceStatus": {
+        "properties": {
+          "application": {
+            "type": "string",
+            "const": "Transformer",
+            "title": "Application",
+            "default": "Transformer"
+          },
+          "phase": {
+            "type": "integer",
+            "const": 15,
+            "title": "Phase",
+            "default": 15
+          },
+          "interface": {
+            "type": "string",
+            "const": "connected_generate",
+            "title": "Interface",
+            "default": "connected_generate"
+          },
+          "generation_enabled": {
+            "type": "boolean",
+            "title": "Generation Enabled"
+          },
+          "busy": {
+            "type": "boolean",
+            "title": "Busy"
+          },
+          "contract_version": {
+            "type": "string",
+            "const": "2.0.0",
+            "title": "Contract Version",
+            "default": "2.0.0"
+          },
+          "device": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "cpu",
+                  "mps"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Device"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "generation_enabled",
+          "busy",
+          "device"
+        ],
+        "title": "ServiceStatus"
+      }
+    }
+  }
+}

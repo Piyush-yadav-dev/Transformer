@@ -1,0 +1,1 @@
+"""Validated, portable project configuration."""

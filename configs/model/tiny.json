@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "vocab_size": 78,
+  "num_layers": 2,
+  "num_heads": 2,
+  "embedding_dim": 16,
+  "context_length": 8,
+  "feed_forward_expansion": 2,
+  "dropout": 0.1,
+  "layer_norm_epsilon": 0.00001,
+  "initialization_std": 0.02,
+  "tie_embeddings": true
+}

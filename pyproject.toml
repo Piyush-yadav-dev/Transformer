@@ -1,0 +1,71 @@
+[build-system]
+requires = ["setuptools==84.2.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Transformer"
+version = "0.1.0"
+description = "A custom autoregressive Transformer text-generation project."
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "torch>=2.15.0,<2.16",
+    "numpy>=2.5.5,<2.6",
+    "datasets>=5.2.0,<5.3",
+    "pyarrow>=26.0.1,<27",
+    "huggingface-hub>=2.4.0,<3",
+]
+
+[project.scripts]
+transformer = "transformer.cli:main"
+
+[project.optional-dependencies]
+evaluation = ["matplotlib>=3.11.2,<3.12"]
+web = ["fastapi>=0.165.0,<0.166", "uvicorn>=0.54.0,<0.55", "pydantic>=2.14.4,<3"]
+story = [
+    "transformers>=5,<6",
+]
+
+[dependency-groups]
+dev = [
+    "build>=1.6.1,<2",
+    "pytest>=9.2.0,<10",
+    "ruff>=0.17.5,<0.18",
+]
+
+[tool.setuptools]
+include-package-data = false
+
+packages = ["transformer", "transformer.web", "transformer.configuration", "transformer.frontend", "transformer.training", "transformer.runtime", "transformer.tokenization", "transformer.verification", "transformer.model", "transformer.inference", "transformer.evaluation", "transformer.benchmarking", "transformer.data"]
+
+[tool.setuptools.package-dir]
+"transformer" = "main"
+"transformer.web" = "backend"
+"transformer.configuration" = "configs"
+"transformer.frontend" = "frontend"
+"transformer.training" = "training"
+"transformer.runtime" = "runtime"
+"transformer.tokenization" = "tokenization"
+"transformer.verification" = "verification"
+"transformer.model" = "model"
+"transformer.inference" = "inference"
+"transformer.evaluation" = "evaluation"
+"transformer.benchmarking" = "benchmarking"
+"transformer.data" = "data"
+
+[tool.setuptools.package-data]
+"transformer.web" = ["contracts/*.json"]
+"transformer.frontend" = ["*.html", "*.css", "*.js"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = ["mps: executes real operations on the local MPS device"]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+extend-exclude = [".tools"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

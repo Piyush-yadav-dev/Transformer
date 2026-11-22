@@ -1,0 +1,77 @@
+{
+  "models": [
+    {
+      "checkpoint": {
+        "path": "runs/phase8-model-a-tinystories-20261119-v1/checkpoints/update-000001000-7f3a90ed13f642e9a699a73d5343b056.pt",
+        "sha256": "b39c15d30b3abf420dca0f94a104e5d22044a23fe1debd3bf3223ef2f78474ad"
+      },
+      "checkpoint_update": 1000,
+      "comparison_member": "model_a",
+      "configuration": {
+        "path": "runs/phase8-model-a-tinystories-20261119-v1/configuration.json",
+        "sha256": "d4f099a0315c0c0cbe7c1a7087fb4f7feb89defc07e8282e22fa8de9033aadc5"
+      },
+      "kind": "baseline",
+      "metrics": {
+        "path": "artifacts/phase10-comparison-v1/results.json",
+        "sha256": "bae91978bcacbb7e2cc908050782179f735f6fdfc8a922f187b4e9ee01e768d9"
+      },
+      "model_id": "transformer-tinystories-v1",
+      "run_id": "phase8-model-a-tinystories-20261119-v1",
+      "tokenizer": {
+        "path": "data/tokens/phase3-shared-characters-v1/tokenizer.json",
+        "sha256": "e9fcd8763ad8f1ee04eff21c5f0d44bc7470941cba78e4059aae7f0f965d3c1c"
+      },
+      "tokenizer_fingerprint": "9795b7a09fd860a748ed7bd5df3054ed84e6bf5efd3420899cdd65120866d480"
+    },
+    {
+      "checkpoint": {
+        "path": "runs/phase9-model-b-combined-20261119-v1/checkpoints/update-000001000-419df80348d4463283240daee5a02d04.pt",
+        "sha256": "d374977df3c3a367baddc0973d1fbe2fe764af1ce5279b845ea190158af66113"
+      },
+      "checkpoint_update": 1000,
+      "comparison_member": "model_b",
+      "configuration": {
+        "path": "runs/phase9-model-b-combined-20261119-v1/configuration.json",
+        "sha256": "233eb1a3cf506b68d652ed644f6b258a85f63c9f0e8405b7b3fdbf9082bc1df7"
+      },
+      "kind": "combined",
+      "metrics": {
+        "path": "artifacts/phase10-comparison-v1/results.json",
+        "sha256": "bae91978bcacbb7e2cc908050782179f735f6fdfc8a922f187b4e9ee01e768d9"
+      },
+      "model_id": "transformer-combined-v1",
+      "run_id": "phase9-model-b-combined-20261119-v1",
+      "tokenizer": {
+        "path": "data/tokens/phase3-shared-characters-v1/tokenizer.json",
+        "sha256": "e9fcd8763ad8f1ee04eff21c5f0d44bc7470941cba78e4059aae7f0f965d3c1c"
+      },
+      "tokenizer_fingerprint": "9795b7a09fd860a748ed7bd5df3054ed84e6bf5efd3420899cdd65120866d480"
+    },
+    {
+      "checkpoint": {
+        "path": "runs/english-stories-a-v1/checkpoints/update-000008000-496b6f1674ff4fe5bc08f7296d30b358.pt",
+        "sha256": "3e3836dec2cea8a6dd0605129f4a21b832d87ab2b8b8b56703854772d4b75520"
+      },
+      "checkpoint_update": 8000,
+      "comparison_member": "english",
+      "configuration": {
+        "path": "runs/english-stories-a-v1/configuration.json",
+        "sha256": "66c3b6c090f209a868cc1c7582d4a946855b6251bd741e9b08b022c85e5f0e20"
+      },
+      "kind": "english",
+      "metrics": {
+        "path": "artifacts/english-stories-a-v1/registration.json",
+        "sha256": "c73ef2dbfedfbaacb03e09ddb05848480ed679fdbc94daa4f7617b14fa07f160"
+      },
+      "model_id": "transformer-tinystories-extended-v1",
+      "run_id": "english-stories-a-v1",
+      "tokenizer": {
+        "path": "data/tokens/english-characters-v1/tokenizer.json",
+        "sha256": "0e85acee3f970f7eea3650d51846475e22e7e2829dc339bf5cf212c6efe3f98a"
+      },
+      "tokenizer_fingerprint": "d1309f2afc6e062e85de159ba838c1cbcb464cae0e8a052a8dfda98fff99360f"
+    }
+  ],
+  "schema_version": 1
+}

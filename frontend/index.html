@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Transformer. A local workspace for short narrative text.">
+    <meta name="color-scheme" content="light">
+    <title>Generate · Transformer</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script type="module" src="/assets/application.js"></script>
+</head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <div class="app-frame">
+      <header class="masthead">
+        <a class="wordmark" href="#/generate" aria-label="Transformer home">Transformer<span class="wordmark-period" aria-hidden="true">.</span></a>
+        <span class="masthead-caption">A local story workspace</span>
+        <span class="preview-badge">Local generation</span>
+      </header>
+      <nav class="primary-nav" aria-label="Main navigation">
+          <a href="#/generate" data-route="generate" aria-current="page">Generate</a>
+          <a href="#/insights" data-route="insights">Model insights</a>
+          <a href="#/architecture" data-route="architecture">Architecture</a>
+      </nav>
+      <main id="main-content" tabindex="-1"></main>
+    </div>
+    <noscript><p class="noscript">Enable JavaScript to use the local story generation interface.</p></noscript>
+
+    <template id="generate-page">
+      <section class="page-heading">
+        <p class="eyebrow">The writing desk</p>
+        <h1>Every story starts somewhere.</h1>
+        <p class="page-description">Write a few lines and see what happens next.</p>
+      </section>
+      <form id="generation-form" class="workspace-grid" novalidate>
+        <section class="writing-area" aria-labelledby="opening-label">
+          <div class="section-heading"><h2 id="opening-label"><label for="prompt">Your opening</label></h2><div class="draft-tools"><button class="button button-text" type="button" id="undo-draft" hidden>Undo</button><button class="button button-text" type="button" id="clear-draft" disabled>Clear</button></div></div>
+          <div class="prompt-examples"><p class="field-help">Try an example</p><div id="example-prompts"></div></div>
+          <textarea class="story-input" id="prompt" name="prompt" rows="6" aria-describedby="prompt-count prompt-error" placeholder="Begin with a character, a place, or a small surprise…" spellcheck="true"></textarea>
+          <div class="field-meta"><output id="prompt-count" for="prompt">0 / 16,384 characters</output></div>
+          <p id="prompt-error" class="field-error" hidden></p>
+          <p id="draft-feedback" class="draft-feedback" role="status"></p>
+        </section>
+        <aside class="preferences" aria-labelledby="preferences-title">
+          <h2 id="preferences-title">Writing preferences</h2>
+          <div class="form-field"><label for="writing-mode">Generation mode</label><div class="select-wrap"><select id="writing-mode" aria-describedby="style-help"><option value="greedy">Greedy · most likely token</option><option value="sample">Sampling · varied output</option></select></div><p class="field-help" id="style-help">Consistent chooses the most likely next character each time.</p></div>
+          <div class="form-field" id="variation-field" hidden><label for="variation">Temperature <output id="variation-value" for="variation">0.8</output></label><input type="number" id="variation" min="0" step="any" value="0.8" aria-describedby="variation-help"><p class="field-help" id="variation-help">Temperature changes sampling randomness. Lower favors likely characters; higher allows more variation.</p></div>
+          <div class="form-field"><label for="story-length">Maximum new tokens</label><input type="number" id="story-length" min="1" max="1024" step="1" value="250" aria-describedby="length-help"><p class="field-help" id="length-help">A length budget, not an exact word count. 1,000 tokens is roughly 600–750 English words. The model may finish earlier; larger budgets request a more developed story.</p></div>
+        </aside>
+        <div class="writing-actions">
+          <div class="editor-actions"><button type="submit" id="generate-action" class="button button-primary" disabled aria-describedby="generation-note">Generate continuation</button></div>
+          <p id="generation-note" class="availability-note">Check the local service to make generation available.</p>
+          <div class="interface-status"><p id="service-status" role="status">Checking the local service…</p><button type="button" id="check-interface" class="button button-text">Check service</button></div>
+        </div>
+        <section class="continuation-area" aria-labelledby="continuation-heading">
+          <div class="section-heading"><h2 id="continuation-heading">The continuation</h2><span id="output-state-label" class="section-caption" role="status">Not started</span></div>
+          <div id="story-output"></div>
+        </section>
+        <details class="session-history" id="composer-history" hidden>
+          <summary>Session history <span id="history-count" class="section-caption">0 / 10</span></summary>
+          <p class="field-help">The newest 10 saved items stay in this tab. Reloading clears them.</p>
+          <button id="clear-history" type="button" class="button button-text">Clear session history</button><div id="session-items"></div>
+        </details>
+      </form>
+    </template>
+
+    <template id="insights-page"></template>
+    <template id="architecture-page"></template>
+
+
+  </body>
+</html>

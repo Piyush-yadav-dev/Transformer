@@ -1,0 +1,51 @@
+# Local Python environments and tooling
+.venv/
+venv/
+.tools/
+.env
+.env.*
+!.env.example
+
+# Python caches and build output
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+build/
+dist/
+
+# Generated data and local run artifacts (source/configuration stays tracked)
+/data/*
+!/data/*.py
+!/data/*.md
+/runs/
+/checkpoints/
+/logs/
+/artifacts/
+/tmp/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.npy
+*.npz
+*.bin
+*.log
+
+# Temporary editor and operating-system files
+.DS_Store
+*.tmp
+*.swp
+*~
+
+# Generated reports may contain student enrollment details
+/output/
+
+# Local credentials
+.netrc
+*.pem
+*.key

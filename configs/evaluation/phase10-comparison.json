@@ -1,0 +1,12 @@
+{
+  "comparison_protocol": "configs/experiments/phase8-comparison.json",
+  "document_path": "docs/phase10_evaluation_protocol.md",
+  "output_directory": "artifacts/phase10-comparison-v1",
+  "device": "mps",
+  "batch_size": 4,
+  "document_stride": 128,
+  "benchmark_repetitions": 3,
+  "benchmark_warmups": 1,
+  "benchmark_new_tokens": 128,
+  "schema_version": 1
+}

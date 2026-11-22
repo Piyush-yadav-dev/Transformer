@@ -1,0 +1,29 @@
+{
+  "models": [
+    {
+      "checkpoint": {
+        "path": "runs/story-continuation-v2/checkpoints/adapter.pt",
+        "sha256": "a23d446c8be8ae32faf2c4718bd4ea376250f2d29d2ac5dba87cf1ea776955aa"
+      },
+      "checkpoint_update": 96,
+      "comparison_member": "story_continuation",
+      "configuration": {
+        "path": "runs/story-continuation-v2/configuration.json",
+        "sha256": "a2acf446fe3e074d2c008223db746ee2dc73552e351be52e407d1298ff007b04"
+      },
+      "kind": "combined",
+      "metrics": {
+        "path": "artifacts/story-continuation-v2/registration.json",
+        "sha256": "9c23d8d101bb9ca95c572d959f6fab44672f089e78fde073a21c4c2a698c960f"
+      },
+      "model_id": "transformer-story-continuation-v2",
+      "run_id": "story-continuation-v2",
+      "tokenizer": {
+        "path": "data/models/qwen-story-base-1.5b/tokenizer.json",
+        "sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539"
+      },
+      "tokenizer_fingerprint": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539"
+    }
+  ],
+  "schema_version": 1
+}
